@@ -1,0 +1,17 @@
+{
+    "169847117db": {
+        "path": "gameComponents/MainScene.ts",
+        "class": "MainScene",
+        "parentPath": ""
+    },
+    "16985061dcf": {
+        "path": "gameComponents/PlayScene.ts",
+        "class": "PlayScene",
+        "parentPath": ""
+    },
+    "169855fe57d": {
+        "path": "gameComponents/HeroScene.ts",
+        "class": "HeroScene",
+        "parentPath": ""
+    }
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="EquipmentSkin" width="87" height="130" xmlns:e="http://ns.egret.com/eui">
+	<e:Image source="skillItemFrame_png" horizontalCenter="0" top="0"/>
+	<e:Image width="87" height="88" x="0" y="0" source="{data.image}"/>
+	<e:Label text="{data.name}" y="96" horizontalCenter="0.5" textColor="0xef992d" size="20"/>
+</e:Skin>

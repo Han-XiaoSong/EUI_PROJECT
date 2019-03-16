@@ -47,16 +47,33 @@ class LoadingUI extends egret.Sprite implements RES.PromiseTaskReporter {
         //创建loading界面图标
         this.loadImg = new egret.Bitmap();
         this.loadImg.texture = RES.getRes('loading2_png');
-        
+        this.loadImg.x = this.stage.stageWidth / 2;
+        this.loadImg.y = this.stage.stageHeight / 2;
+        //锚点居中，方便旋转
+        this.loadImg.anchorOffsetX = this.loadImg.width / 2;
+        this.loadImg.anchorOffsetY = this.loadImg.height / 2;
+        this.addChild(this.loadImg);
+
+        //创建loading文本
         this.textField = new egret.TextField();
-        this.addChild(this.textField);
-        this.textField.y = 300;
+        this.textField.y = (this.stage.stageHeight - this.textField.height) / 2;
         this.textField.width = 480;
-        this.textField.height = 100;
+        this.textField.height = 20;
+        this.textField.size = 14;
         this.textField.textAlign = "center";
+        this.addChild(this.textField);
+
+        //添加侦听事件，每一帧图标转动一下
+        this.addEventListener(egret.Event.ENTER_FRAME,this.onEnterFrame,this);
     }
 
+    //旋转loading图标
+    private onEnterFrame(){
+        this.loadImg.rotation += 5;
+    }
+    
+    //此方法在资源加载中会自动调用
     public onProgress(current: number, total: number): void {
-        this.textField.text = `Loading...${current}/${total}`;
+        this.textField.text = `${Math.floor((current / total) * 100)}%`;
     }
 }
