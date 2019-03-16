@@ -31,12 +31,23 @@ class LoadingUI extends egret.Sprite implements RES.PromiseTaskReporter {
 
     public constructor() {
         super();
-        this.createView();
+        this.addEventListener(egret.Event.ADDED_TO_STAGE,this.createView,this);
     }
 
-    private textField: egret.TextField;
+    private textField: egret.TextField;//进度条文本
+    private bgImg: egret.Bitmap;//Loading界面背景
+    private loadImg: egret.Bitmap;//Loading界面图标
 
     private createView(): void {
+        //创建loading背景
+        this.bgImg = new egret.Bitmap();
+        this.bgImg.texture = RES.getRes('loading_jpg');
+        this.addChild(this.bgImg);
+
+        //创建loading界面图标
+        this.loadImg = new egret.Bitmap();
+        this.loadImg.texture = RES.getRes('loading2_png');
+        
         this.textField = new egret.TextField();
         this.addChild(this.textField);
         this.textField.y = 300;
