@@ -41,6 +41,7 @@ var LoadingUI = (function (_super) {
     function LoadingUI() {
         var _this = _super.call(this) || this;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.createView, _this);
+        console.log("loadingView");
         return _this;
     }
     LoadingUI.prototype.createView = function () {

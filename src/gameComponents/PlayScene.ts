@@ -40,7 +40,8 @@ class PlayScene extends eui.Component implements  eui.UIComponent {
 
 		//给返回按钮增加事件侦听
 		this.btnReturn.addEventListener(egret.TouchEvent.TOUCH_TAP,()=>{
-			SceneManager.toMainScene();
+			this.dispatchEventWith(GameEvents.EVT_RETURN);
+			//SceneManager.toMainScene();
 		},this)
 	}
 	

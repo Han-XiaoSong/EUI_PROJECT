@@ -13,5 +13,20 @@
         "path": "gameComponents/HeroScene.ts",
         "class": "HeroScene",
         "parentPath": ""
+    },
+    "1698ebd6aeb": {
+        "path": "gameComponents/AboutScene.ts",
+        "class": "AboutScene",
+        "parentPath": ""
+    },
+    "1698ecc105e": {
+        "path": "gameComponents/GoodsScene.ts",
+        "class": "GoodsScene",
+        "parentPath": ""
+    },
+    "1698f86df70": {
+        "path": "gameComponents/test.ts",
+        "class": "test",
+        "parentPath": ""
     }
 }

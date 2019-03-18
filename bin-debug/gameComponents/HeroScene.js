@@ -17,6 +17,7 @@ var HeroScene = (function (_super) {
         _super.prototype.partAdded.call(this, partName, instance);
     };
     HeroScene.prototype.childrenCreated = function () {
+        var _this = this;
         _super.prototype.childrenCreated.call(this);
         //原始数据数组
         var heroDataArray = [
@@ -36,13 +37,13 @@ var HeroScene = (function (_super) {
         this.heroScroller.verticalScrollBar.autoVisibility = false;
         //给返回按钮添加事件监听
         this.btnReturn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            SceneManager.toMainScene();
+            _this.dispatchEventWith(GameEvents.EVT_RETURN);
         }, this);
         //给确定按钮添加事件监听
         this.btnConfirm.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
     };
     HeroScene.prototype.onClick = function (evt) {
-        SceneManager.toMainScene();
+        this.dispatchEventWith(GameEvents.EVT_RETURN);
         var dataProvider = this.heroList.dataProvider;
         var nameOfHeroSelected = [];
         for (var i = 0; i < dataProvider.length; i++) {

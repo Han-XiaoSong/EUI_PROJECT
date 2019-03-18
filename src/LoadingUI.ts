@@ -32,6 +32,7 @@ class LoadingUI extends egret.Sprite implements RES.PromiseTaskReporter {
     public constructor() {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.createView,this);
+        console.log("loadingView");
     }
 
     private textField: egret.TextField;//进度条文本

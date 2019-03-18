@@ -7,12 +7,16 @@ class SceneManager {
 	public mainScene: MainScene;
 	public playerScene: PlayScene;
 	public heroScene: HeroScene;
+	public goodsScene: GoodsScene;
+	public aboutScene: AboutScene;
 
-	//创建两个场景
+	//创建场景
 	private constructor() {
 		this.mainScene = new MainScene();
 		this.playerScene = new PlayScene();
 		this.heroScene = new HeroScene();
+		this.goodsScene = new GoodsScene();
+		this.aboutScene = new AboutScene();
 
 	}
 
@@ -33,45 +37,52 @@ class SceneManager {
 	}
 
 	/**
-	 * 设置主场景
+	 * 设置场景切换
 	 */
-	public static toMainScene(){
+	public static setScene(toWhich: string){
 		let stage: egret.DisplayObjectContainer = this.instance._stage;
 		let mainScene = this.instance.mainScene;
 
-		if(!mainScene.parent)
-			stage.addChild(mainScene);
-		if(SceneManager.instance.playerScene.parent)
-			mainScene.removeChild(this.instance.playerScene);
-		if(SceneManager.instance.heroScene.parent)
-			mainScene.removeChild(this.instance.heroScene);
-		//if(SceneManager.instance.goodsScene.parent)
-
+		//移除所有之前的场景
+		this.instance.deleteScene();
+		//设置新的场景
+		switch(toWhich){
+			case 'main':
+				if(!mainScene.parent)
+					stage.addChild(mainScene);
+				break;
+			case 'player':
+				mainScene.addChildAt(this.instance.playerScene,mainScene.numChildren - 1);
+				break;
+			case 'hero':
+				mainScene.addChildAt(this.instance.heroScene,mainScene.numChildren - 1);
+				break;
+			case 'goods':
+				mainScene.addChildAt(this.instance.goodsScene,mainScene.numChildren - 1);
+				break;
+			case 'about':
+				mainScene.addChildAt(this.instance.aboutScene,mainScene.numChildren - 1);
+				break;
+		}
 	}
+	
+	/**
+	 * 场景之间的切换时，删除之前存在的所有场景
+	 */
+	public deleteScene(){
+		let main_scene: egret.DisplayObjectContainer =  SceneManager.instance.mainScene;
+		let instance = SceneManager.instance;
 
-	public static toPlayerScene(){
-		let stage: egret.DisplayObjectContainer = this.instance._stage;
-		if(SceneManager.instance.playerScene.parent)
-			this.instance.mainScene.removeChild(SceneManager.instance.playerScene);
-		if(SceneManager.instance.heroScene.parent)
-			this.instance.mainScene.removeChild(SceneManager.instance.heroScene);
-		this.instance.mainScene.addChildAt(this.instance.playerScene, this.instance.mainScene.numChildren - 1);
+		if(instance.playerScene.parent)
+			main_scene.removeChild(instance.playerScene);
+		if(instance.heroScene.parent)
+			main_scene.removeChild(instance.heroScene);
+		if(instance.goodsScene.parent)
+			main_scene.removeChild(instance.goodsScene);
+		if(instance.aboutScene.parent)
+			main_scene.removeChild(instance.aboutScene);
 	}
-
-	public static toHeroScene(){
-		let stage: egret.DisplayObjectContainer = this.instance._stage;
-		this.instance.mainScene.addChildAt(this.instance.heroScene,this.instance.mainScene.numChildren - 1)
-	}
-
-	public static toGoodsScene(){
-
-	}
-
-	public static toAboutScene(){
-
-	}
-
-
+	
 	//显示已经选择的英雄的名字
 	public static showHeroSelected(arr: string[]){
         let text:string = '你选择了: '

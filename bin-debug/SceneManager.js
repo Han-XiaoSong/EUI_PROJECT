@@ -5,11 +5,13 @@ var __reflect = (this && this.__reflect) || function (p, c, t) {
  * 场景管理,单例类
  */
 var SceneManager = (function () {
-    //创建两个场景
+    //创建场景
     function SceneManager() {
         this.mainScene = new MainScene();
         this.playerScene = new PlayScene();
         this.heroScene = new HeroScene();
+        this.goodsScene = new GoodsScene();
+        this.aboutScene = new AboutScene();
     }
     Object.defineProperty(SceneManager, "instance", {
         get: function () {
@@ -28,34 +30,47 @@ var SceneManager = (function () {
         this._stage = s;
     };
     /**
-     * 设置主场景
+     * 设置场景切换
      */
-    SceneManager.toMainScene = function () {
+    SceneManager.setScene = function (toWhich) {
         var stage = this.instance._stage;
         var mainScene = this.instance.mainScene;
-        if (!mainScene.parent)
-            stage.addChild(mainScene);
-        if (SceneManager.instance.playerScene.parent)
-            mainScene.removeChild(this.instance.playerScene);
-        if (SceneManager.instance.heroScene.parent)
-            mainScene.removeChild(this.instance.heroScene);
-        //if(SceneManager.instance.goodsScene.parent)
+        //移除所有之前的场景
+        this.instance.deleteScene();
+        //设置新的场景
+        switch (toWhich) {
+            case 'main':
+                if (!mainScene.parent)
+                    stage.addChild(mainScene);
+                break;
+            case 'player':
+                mainScene.addChildAt(this.instance.playerScene, mainScene.numChildren - 1);
+                break;
+            case 'hero':
+                mainScene.addChildAt(this.instance.heroScene, mainScene.numChildren - 1);
+                break;
+            case 'goods':
+                mainScene.addChildAt(this.instance.goodsScene, mainScene.numChildren - 1);
+                break;
+            case 'about':
+                mainScene.addChildAt(this.instance.aboutScene, mainScene.numChildren - 1);
+                break;
+        }
     };
-    SceneManager.toPlayerScene = function () {
-        var stage = this.instance._stage;
-        if (SceneManager.instance.playerScene.parent)
-            this.instance.mainScene.removeChild(SceneManager.instance.playerScene);
-        if (SceneManager.instance.heroScene.parent)
-            this.instance.mainScene.removeChild(SceneManager.instance.heroScene);
-        this.instance.mainScene.addChildAt(this.instance.playerScene, this.instance.mainScene.numChildren - 1);
-    };
-    SceneManager.toHeroScene = function () {
-        var stage = this.instance._stage;
-        this.instance.mainScene.addChildAt(this.instance.heroScene, this.instance.mainScene.numChildren - 1);
-    };
-    SceneManager.toGoodsScene = function () {
-    };
-    SceneManager.toAboutScene = function () {
+    /**
+     * 场景之间的切换时，删除之前存在的所有场景
+     */
+    SceneManager.prototype.deleteScene = function () {
+        var main_scene = SceneManager.instance.mainScene;
+        var instance = SceneManager.instance;
+        if (instance.playerScene.parent)
+            main_scene.removeChild(instance.playerScene);
+        if (instance.heroScene.parent)
+            main_scene.removeChild(instance.heroScene);
+        if (instance.goodsScene.parent)
+            main_scene.removeChild(instance.goodsScene);
+        if (instance.aboutScene.parent)
+            main_scene.removeChild(instance.aboutScene);
     };
     //显示已经选择的英雄的名字
     SceneManager.showHeroSelected = function (arr) {

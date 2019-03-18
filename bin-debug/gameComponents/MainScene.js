@@ -11,44 +11,81 @@ r.prototype = e.prototype, t.prototype = new r();
 var MainScene = (function (_super) {
     __extends(MainScene, _super);
     function MainScene() {
-        return _super.call(this) || this;
+        var _this = _super.call(this) || this;
+        _this.mbtnArr = [];
+        console.log("main constructor");
+        _this.addEventListener(egret.Event.ADDED, _this.onAdded, _this);
+        return _this;
     }
     MainScene.prototype.partAdded = function (partName, instance) {
         _super.prototype.partAdded.call(this, partName, instance);
+        console.log("main partAdded");
     };
     MainScene.prototype.childrenCreated = function () {
-        var _this = this;
         _super.prototype.childrenCreated.call(this);
-        //设置为可点击
-        this.mbtnGroup.touchEnabled = true;
-        var thoseBtn = [this.mbtnPlayer, this.mbtnHero, this.mbtnGoods, this.mbtnAbout];
-        this.mbtnGroup.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
-            //将所有的按钮变为非选中状态
-            for (var i = 0; i < thoseBtn.length; i++)
-                thoseBtn[i].selected = false;
-            //将当前选择的按钮置为选中状态
-            var currentBtn = evt.target;
-            currentBtn.selected = true;
-            _this.switchUi(currentBtn);
-        }, this);
+        console.log("main childrenCreated");
     };
-    MainScene.prototype.switchUi = function (target) {
+    /**
+     *当main被添加到显示列表中时触发
+     */
+    MainScene.prototype.onAdded = function () {
+        this.mbtnArr = [this.mbtnPlayer, this.mbtnHero, this.mbtnGoods, this.mbtnAbout];
+        this.mbtnGroup.touchEnabled = true;
+        this.mbtnGroup.addEventListener(egret.TouchEvent.TOUCH_TAP, this.switchUi, this);
+    };
+    /**
+     * 重置所有按钮的选中状态
+     */
+    MainScene.prototype.resetBtn = function () {
+        for (var i = 0; i < this.mbtnArr.length; i++)
+            this.mbtnArr[i].selected = false;
+    };
+    /**
+     * 选择不同的按钮实现页面之间的跳转
+     */
+    MainScene.prototype.switchUi = function (evt) {
+        var _this = this;
+        var inst = SceneManager.instance;
+        var target = evt.target;
+        //所有按钮处于非选中状态，当前目标为选中状态
+        this.resetBtn();
+        target.selected = true;
         switch (target.name) {
             case 'player':
-                console.log("player has been selected");
-                SceneManager.toPlayerScene();
+                console.log("<<<<<<PLAYER>>>>>>");
+                SceneManager.setScene('player');
+                //处理返回按钮事件
+                inst.playerScene.addEventListener(GameEvents.EVT_RETURN, function () {
+                    _this.resetBtn();
+                    SceneManager.setScene('main');
+                }, this);
                 break;
             case 'hero':
-                console.log("hero has been selected");
-                SceneManager.toHeroScene();
+                console.log("<<<<<<HERO>>>>>>");
+                SceneManager.setScene("hero");
+                //处理返回按钮
+                inst.heroScene.addEventListener(GameEvents.EVT_RETURN, function () {
+                    _this.resetBtn();
+                    SceneManager.setScene("main");
+                }, this);
                 break;
             case 'goods':
-                console.log('goods has been selected');
-                SceneManager.toGoodsScene();
+                console.log("<<<<<<GOODS>>>>>>");
+                SceneManager.setScene("goods");
+                //处理返回按钮
+                inst.goodsScene.addEventListener(GameEvents.EVT_RETURN, function () {
+                    _this.resetBtn();
+                    SceneManager.setScene("main");
+                }, this);
                 break;
             case 'about':
-                console.log("about has been selected");
-                SceneManager.toAboutScene();
+                console.log("<<<<<<ABOUT>>>>>>");
+                SceneManager.setScene("about");
+                //处理返回按钮
+                inst.aboutScene.addEventListener(GameEvents.EVT_CLOSE_ABOUT, function () {
+                    _this.resetBtn();
+                    SceneManager.setScene("main");
+                }, this);
                 break;
             default:
                 break;

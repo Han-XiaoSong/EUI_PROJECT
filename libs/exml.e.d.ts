@@ -1,3 +1,5 @@
+declare class AboutSceneSkin extends eui.Skin{
+}
 declare class mbtnAboutSkin extends eui.Skin{
 }
 declare class mbtnGoodsSkin extends eui.Skin{
@@ -6,9 +8,13 @@ declare class mbtnHeroSkin extends eui.Skin{
 }
 declare class mbtnPLayerSkin extends eui.Skin{
 }
+declare class GoodsSceneSkin extends eui.Skin{
+}
 declare class HeroSceneSkin extends eui.Skin{
 }
 declare class EquipmentSkin extends eui.Skin{
+}
+declare class GoodsSkin extends eui.Skin{
 }
 declare class HeroSkin extends eui.Skin{
 }

@@ -41,7 +41,7 @@ class HeroScene extends eui.Component implements  eui.UIComponent {
 
 		//给返回按钮添加事件监听
 		this.btnReturn.addEventListener(egret.TouchEvent.TOUCH_TAP,()=>{
-			SceneManager.toMainScene();
+			this.dispatchEventWith(GameEvents.EVT_RETURN);
 		},this)
 
 		//给确定按钮添加事件监听
@@ -49,7 +49,7 @@ class HeroScene extends eui.Component implements  eui.UIComponent {
 	}
 
 	private onClick(evt: egret.Event){
-		SceneManager.toMainScene();
+		this.dispatchEventWith(GameEvents.EVT_RETURN);
 
 		let dataProvider = this.heroList.dataProvider;
 		let nameOfHeroSelected: string[] = [];

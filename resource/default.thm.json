@@ -15,16 +15,21 @@
 		"eui.ItemRenderer": "resource/eui_skins/ItemRendererSkin.exml",
 		"MainScene": "resource/custom_skins/MainScene.exml",
 		"PlayScene": "resource/custom_skins/PlayScene.exml",
-		"HeroScene": "resource/custom_skins/HeroScene.exml"
+		"HeroScene": "resource/custom_skins/HeroScene.exml",
+		"AboutScene": "resource/custom_skins/AboutScene.exml",
+		"GoodsScene": "resource/custom_skins/GoodsScene.exml"
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
+		"resource/custom_skins/AboutScene.exml",
 		"resource/custom_skins/btn_skins/mbtnAboutSkin.exml",
 		"resource/custom_skins/btn_skins/mbtnGoodsSkin.exml",
 		"resource/custom_skins/btn_skins/mbtnHeroSkin.exml",
 		"resource/custom_skins/btn_skins/mbtnPLayerSkin.exml",
+		"resource/custom_skins/GoodsScene.exml",
 		"resource/custom_skins/HeroScene.exml",
 		"resource/custom_skins/item_skins/EquipmentSkin.exml",
+		"resource/custom_skins/item_skins/GoodsSkin.exml",
 		"resource/custom_skins/item_skins/HeroSkin.exml",
 		"resource/custom_skins/MainScene.exml",
 		"resource/custom_skins/PlayScene.exml",

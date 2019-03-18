@@ -5,9 +5,11 @@ class MainScene extends eui.Component implements  eui.UIComponent {
 	public mbtnHero: eui.ToggleButton;
 	public mbtnGoods: eui.ToggleButton;
 	public mbtnAbout: eui.ToggleButton;
+	private mbtnArr: eui.ToggleButton[] = [];
 
 	public constructor() {
 		super();
+		this.addEventListener(egret.Event.ADDED,this.onAdded,this);
 	}
 
 	protected partAdded(partName:string,instance:any):void
@@ -19,43 +21,73 @@ class MainScene extends eui.Component implements  eui.UIComponent {
 	protected childrenCreated():void
 	{
 		super.childrenCreated();
-
-		//设置为可点击
-		this.mbtnGroup.touchEnabled = true;
-		let thoseBtn: eui.ToggleButton[] = [this.mbtnPlayer, this.mbtnHero, this.mbtnGoods, this.mbtnAbout];
-
-		this.mbtnGroup.addEventListener(egret.TouchEvent.TOUCH_TAP,(evt: egret.Event)=>{
-			//将所有的按钮变为非选中状态
-			for(let i = 0; i < thoseBtn.length; i++)
-				thoseBtn[i].selected = false;
-			//将当前选择的按钮置为选中状态
-			let currentBtn: eui.ToggleButton = evt.target;
-			currentBtn.selected = true;
-			this.switchUi(currentBtn);
-		},this)
 	}
 
-	public switchUi(target: eui.ToggleButton){
+	/**
+	 *当main被添加到显示列表中时触发
+	 */
+	private onAdded(){
+		this.mbtnArr = [this.mbtnPlayer, this.mbtnHero, this.mbtnGoods, this.mbtnAbout];
+		this.mbtnGroup.touchEnabled = true;
+		this.mbtnGroup.addEventListener(egret.TouchEvent.TOUCH_TAP,this.switchUi,this);
+	}
+
+	/**
+	 * 重置所有按钮的选中状态
+	 */
+	private resetBtn(){
+		for(let i = 0; i < this.mbtnArr.length; i++)
+			this.mbtnArr[i].selected = false;
+	}
+	/**
+	 * 选择不同的按钮实现页面之间的跳转
+	 */
+	public switchUi(evt: egret.Event){
+		let inst = SceneManager.instance;
+		let target = evt.target;
+		//所有按钮处于非选中状态，当前目标为选中状态
+		this.resetBtn();
+		target.selected = true;
+
 		switch(target.name){
 			case 'player':
-				console.log("player has been selected");
-				SceneManager.toPlayerScene();
+				console.log("<<<<<<PLAYER>>>>>>");
+				SceneManager.setScene('player');
+				//处理返回按钮事件
+				inst.playerScene.addEventListener(GameEvents.EVT_RETURN,()=>{
+					this.resetBtn();
+					SceneManager.setScene('main');
+				},this)
 				break;
 			case 'hero':
-				console.log("hero has been selected");
-				SceneManager.toHeroScene();
+				console.log("<<<<<<HERO>>>>>>");
+				SceneManager.setScene("hero");
+				//处理返回按钮
+				inst.heroScene.addEventListener(GameEvents.EVT_RETURN,()=>{
+					this.resetBtn();
+					SceneManager.setScene("main");
+				},this)
 				break;
 			case 'goods':
-				console.log('goods has been selected');
-				SceneManager.toGoodsScene();
+				console.log("<<<<<<GOODS>>>>>>");
+				SceneManager.setScene("goods");
+				//处理返回按钮
+				inst.goodsScene.addEventListener(GameEvents.EVT_RETURN,()=>{
+					this.resetBtn();
+					SceneManager.setScene("main");
+				},this)
 				break;
 			case 'about':
-				console.log("about has been selected");
-				SceneManager.toAboutScene();
+				console.log("<<<<<<ABOUT>>>>>>");
+				SceneManager.setScene("about");
+				//处理返回按钮
+				inst.aboutScene.addEventListener(GameEvents.EVT_CLOSE_ABOUT,()=>{
+					this.resetBtn();
+					SceneManager.setScene("main");
+				},this)
 				break;
 			default:
 				break;
 		}
-	}
-	
+	}	
 }

@@ -17,6 +17,7 @@ var PlayScene = (function (_super) {
         _super.prototype.partAdded.call(this, partName, instance);
     };
     PlayScene.prototype.childrenCreated = function () {
+        var _this = this;
         _super.prototype.childrenCreated.call(this);
         //数组数据
         var skillDataArray = [
@@ -36,7 +37,8 @@ var PlayScene = (function (_super) {
         this.skillScroller.horizontalScrollBar.autoVisibility = false;
         //给返回按钮增加事件侦听
         this.btnReturn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            SceneManager.toMainScene();
+            _this.dispatchEventWith(GameEvents.EVT_RETURN);
+            //SceneManager.toMainScene();
         }, this);
     };
     return PlayScene;
